@@ -13,7 +13,7 @@ const getProductByIdAdapter = async(ProductId) => {
         else 
             res = {
                 'statusCode' : response.error,
-                'message' : response.message
+                'body' : response.message
             }
         return res;
     }catch(error){

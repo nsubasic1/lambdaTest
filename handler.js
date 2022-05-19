@@ -6,8 +6,8 @@ module.exports.handler = async(event) => {
   let res = await getProductByIdAdapter(ProductId)
   console.log(res)
   return {
-    statusCode: 200,
-    body: JSON.stringify(res)
+    statusCode: res.statusCode,
+    body: JSON.stringify(res.body)
   };
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
