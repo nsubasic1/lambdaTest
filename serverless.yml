@@ -23,6 +23,15 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs14.x
+  environment:
+    TABLE_NAME:
+      Ref: subasicProducts
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:*
+    Resource:
+      - "Fn::GetAtt": [subasicProducts, Arn]
 
 # you can overwrite defaults here
 #  stage: dev
@@ -63,8 +72,42 @@ functions:
     handler: handler.handler
     events:
     - httpApi:
-         path: /stock/{id}
+         path: /dynamoDB/{id}
          method: get
+    - httpApi:
+        path: /dynamoDB
+        method: post
+    - httpApi:
+        path: /dynamoDB
+        method: get
+    - httpApi:
+        path: /dynamoDB/{id}
+        method: put
+    - httpApi:
+        path: /dynamoDB/{id}
+        method: delete   
+    - httpApi:
+         path: /sellableProduct
+         method: get
+    - httpApi:
+         path: /sellableProduct
+         method: post
+
+resources:
+  Resources:
+    subasicProducts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: subasicProducts
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

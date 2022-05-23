@@ -1,15 +1,24 @@
 'use strict';
-const getProductByIdAdapter = require("./adapters/GetProductByIdAdapter")
+const ProductsAdapter = require("./adapters/ProductsAdapter")
 
 module.exports.handler = async(event) => {
-  const ProductId = event.pathParameters.id;
-  let res = await getProductByIdAdapter(ProductId)
-  console.log(res)
-  return {
-    statusCode: res.statusCode,
-    body: JSON.stringify(res.body)
-  };
+  console.log(event)
+  try{
+  const routeKey = event.routeKey
+  
+  if(routeKey.includes("dynamoDB"))
+    return await ProductsAdapter(event)
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+  else if (routeKey.includes(sellableProduct))
+    return {statusCode : 200, body:JSON.stringify({message:  "not implemented yet"})};
+
+  else 
+  return {statusCode : 404, body:JSON.stringify({message:  "Unsupported path"})};
+  
+  } catch (error) {
+    if(error.message ==  "No such product in the database") 
+    return {'statusCode' : 404, body: JSON.stringify({message: error.message})};
+    throw error
+  }
+
 };
