@@ -1,8 +1,16 @@
 'use strict';
 const ProductsAdapter = require("./adapters/ProductsAdapter")
+var validateCurrencyCode = require('validate-currency-code');
 
 module.exports.handler = async(event) => {
   console.log(event)
+
+  const currency = event?.queryStringParameters?.currency
+  if(currency != null){
+    if (!validateCurrencyCode(currency)) {
+      return {'statusCode' : 400, body: JSON.stringify({message: "Invalid currency"})};
+    }
+  }
   try{
   const routeKey = event.routeKey
   

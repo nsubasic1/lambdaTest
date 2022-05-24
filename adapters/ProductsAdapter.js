@@ -14,7 +14,9 @@ const ProductsAdapter = async(event) => {
                 break
             }
             case 'GET /dynamoDB/{id}' : {
-                response = await getProductByIdDriven(event.pathParameters.id)
+                let currency = event?.queryStringParameters?.currency
+                console.log("trenutna valuta " + currency)
+                response = await getProductByIdDriven(event.pathParameters.id, currency)
                 break
             }
             case 'DELETE /dynamoDB/{id}' : {

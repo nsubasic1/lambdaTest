@@ -74,6 +74,12 @@ functions:
     - httpApi:
          path: /dynamoDB/{id}
          method: get
+         request:
+            template:
+              application/json: >
+                {
+                  "currency" : "$input.params('currency')"
+                }
     - httpApi:
         path: /dynamoDB
         method: post

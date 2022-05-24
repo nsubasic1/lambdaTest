@@ -1,5 +1,6 @@
 const getProductByIdDB = require("../adapters/getProductsByIdDB");
 const ProductsDB = require("../adapters//ProductsDB");
+const  GetConversions = require("../adapters/Conversions");
 
 const getProductByIdDriver = async (ProductId) => {
     try{
@@ -25,9 +26,15 @@ const deleteProductDriver = async (ProductId) => {
     return res;
 }
 
+const getConversions = async(currency) => {
+    const res = await GetConversions(currency)
+    return res;
+}
+
 module.exports = {
     getProductByIdDriver,
     addProductDriver,
     getProductsDriver,
-    deleteProductDriver
+    deleteProductDriver,
+    getConversions
 }

@@ -1,7 +1,7 @@
 const GetProductByIdLogic = require("../domains/GetProductByIdLogic")
 
- const getProductByIdDriven = async (ProductId) => {
-        const response = await GetProductByIdLogic(ProductId);
+ const getProductByIdDriven = async (ProductId, currency) => {
+        const response = await GetProductByIdLogic(ProductId, currency);
         return response;
 }
 
